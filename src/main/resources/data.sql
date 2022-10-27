@@ -1,0 +1,1 @@
+INSERT INTO PESSOAS (nome, cpf, data_nascimento) VALUES ('Usuario De Teste', '11111111111', '1999-01-20')
