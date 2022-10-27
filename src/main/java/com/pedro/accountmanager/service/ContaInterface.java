@@ -1,11 +1,12 @@
 package com.pedro.accountmanager.service;
 
 import com.pedro.accountmanager.dto.ContaDTO;
+import com.pedro.accountmanager.model.Contas;
 
 import java.math.BigDecimal;
 
 public interface ContaInterface {
-    public void criarConta(ContaDTO contaDTO);
+    public Contas criarConta(ContaDTO contaDTO);
 
     public void depositoConta(Long id, BigDecimal valorDeposito);
 

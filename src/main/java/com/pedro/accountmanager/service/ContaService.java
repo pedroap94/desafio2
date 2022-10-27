@@ -17,8 +17,8 @@ public class ContaService implements ContaInterface{
     private final ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public void criarConta(ContaDTO contaDTO) {
-        contaRepository.save(modelMapper.map(contaDTO, Contas.class));
+    public Contas criarConta(ContaDTO contaDTO) {
+        return contaRepository.save(modelMapper.map(contaDTO, Contas.class));
     }
 
     @Override

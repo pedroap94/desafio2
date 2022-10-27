@@ -1,6 +1,8 @@
 package com.pedro.accountmanager.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Transacoes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +21,18 @@ public class Transacoes {
     private Contas idConta;
     private BigDecimal valor;
     @NotNull(message = "Data da transação não pode ser nula")
-    private LocalDateTime dataTransacao;
+    private LocalDateTime dataTransacao = LocalDateTime.now();
 
-    public Transacoes(Contas idConta, BigDecimal valor, LocalDateTime dataTransacao) {
+    public Transacoes(Contas idConta, BigDecimal valor) {
         this.idConta = idConta;
         this.valor = valor;
-        this.dataTransacao = dataTransacao;
+    }
+
+    public void setIdConta(Contas idConta) {
+        this.idConta = idConta;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
     }
 }

@@ -1,6 +1,7 @@
 package com.pedro.accountmanager.controller;
 
 import com.pedro.accountmanager.dto.ContaDTO;
+import com.pedro.accountmanager.facade.ContasFacade;
 import com.pedro.accountmanager.service.ContaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("conta")
 @AllArgsConstructor
 public class ContaController {
-    private ContaService contaService;
+    private ContasFacade contasFacade;
 
     @PostMapping("criar-conta")
     public ResponseEntity<Void> criarConta(@RequestBody ContaDTO contaDTO){
-        contaService.criarConta(contaDTO);
+        contasFacade.criarConta(contaDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
