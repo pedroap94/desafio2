@@ -5,7 +5,6 @@ import com.pedro.accountmanager.exception.PessoaException;
 import com.pedro.accountmanager.model.Pessoas;
 import com.pedro.accountmanager.repository.PessoaRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class PessoaService {
             pessoaRepository.save(modelMapper.map(pessoaDTO, Pessoas.class));
             return;
         }
-        log.error(String.format("Pessoa já existe no banco de dados. Nome: %s", pessoaDTO.getNome()));
+        log.error("Pessoa já existe no banco de dados. Nome: {}", pessoaDTO.getNome());
         throw new PessoaException("Pessoa já existe no banco de dados");
     }
 

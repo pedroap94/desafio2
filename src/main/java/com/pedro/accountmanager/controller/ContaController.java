@@ -1,8 +1,8 @@
 package com.pedro.accountmanager.controller;
 
 import com.pedro.accountmanager.dto.ContaDTO;
+import com.pedro.accountmanager.dto.DepositoDTO;
 import com.pedro.accountmanager.facade.ContasFacade;
-import com.pedro.accountmanager.service.ContaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,18 @@ public class ContaController {
     private ContasFacade contasFacade;
 
     @PostMapping("criar-conta")
-    public ResponseEntity<Void> criarConta(@RequestBody ContaDTO contaDTO){
+    public ResponseEntity<Void> criarConta(@RequestBody ContaDTO contaDTO) {
         contasFacade.criarConta(contaDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("depositar")
+    public ResponseEntity<Void> depositar(@RequestBody DepositoDTO depositoDTO) {
+        try {
+            contasFacade.depositar(depositoDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

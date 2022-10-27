@@ -1,4 +1,4 @@
-package com.pedro.accountmanager.service;
+package com.pedro.accountmanager.interfaces;
 
 import com.pedro.accountmanager.dto.TransacoesDTO;
 import com.pedro.accountmanager.model.Contas;
