@@ -1,14 +1,15 @@
 package com.pedro.accountmanager.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Contas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,18 +19,15 @@ public class Contas {
     private Pessoas idPessoa;
     private BigDecimal saldo;
     private BigDecimal limiteSaqueDiario;
-    private boolean flagAtivo;
+    private boolean flagAtivo = true;
     private Integer tipoConta;
-    @NotNull(message = "Data de criação obrigatória")
-    private LocalDate dataCriacao;
+    private final LocalDate dataCriacao = LocalDate.now();
 
-    public Contas(Pessoas idPessoa, BigDecimal saldo, BigDecimal limiteSaqueDiario, boolean flagAtivo, Integer tipoConta, LocalDate dataCriacao) {
+    public Contas(Pessoas idPessoa, BigDecimal saldo, BigDecimal limiteSaqueDiario, Integer tipoConta) {
         this.idPessoa = idPessoa;
         this.saldo = saldo;
         this.limiteSaqueDiario = limiteSaqueDiario;
-        this.flagAtivo = flagAtivo;
         this.tipoConta = tipoConta;
-        this.dataCriacao = dataCriacao;
     }
 
     public void setSaldo(BigDecimal saldo) {
@@ -46,5 +44,9 @@ public class Contas {
 
     public void setTipoConta(Integer tipoConta) {
         this.tipoConta = tipoConta;
+    }
+
+    public void setIdPessoa(Pessoas idPessoa) {
+        this.idPessoa = idPessoa;
     }
 }
