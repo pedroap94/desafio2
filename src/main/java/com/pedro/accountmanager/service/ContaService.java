@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service
@@ -56,9 +57,13 @@ public class ContaService implements ContaInterface {
         throw new ContaException("Conta não encontrada, inativa ou com saldo insuficiente");
     }
 
+    @Transactional
     @Override
     public void bloquearConta(Long id) {
-
+        int contasModificadas = contaRepository.updateFlagAtivoFalse(id);
+        if(contasModificadas == 0) {
+            throw new ContaException("Nenhuma conta encontrada");
+        }
     }
 
     private Contas findContasAtivas(Long id) {

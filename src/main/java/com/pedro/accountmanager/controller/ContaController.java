@@ -40,4 +40,10 @@ public class ContaController {
         contasFacade.sacar(saqueOuDepositoDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PatchMapping("inativar-conta/{id}")
+    public ResponseEntity<Void> inativarConta(@PathVariable("id") Long id) {
+        contaService.bloquearConta(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
