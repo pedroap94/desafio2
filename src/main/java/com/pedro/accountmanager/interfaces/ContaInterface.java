@@ -6,13 +6,13 @@ import com.pedro.accountmanager.model.Contas;
 import java.math.BigDecimal;
 
 public interface ContaInterface {
-    public Contas criarConta(ContaDTO contaDTO);
+    Contas criarConta(ContaDTO contaDTO);
 
-    public Contas depositoConta(Long id, BigDecimal valorDeposito);
+    Contas depositoConta(Long id, BigDecimal valorDeposito);
 
-    public BigDecimal saldoConta(Long id);
+    BigDecimal saldoConta(Long id);
 
-    public void saqueConta(Long id, BigDecimal valorSaque);
+    Contas saqueConta(Long id, BigDecimal valorSaque, BigDecimal valorDiarioUtilizado);
 
-    public void bloquearConta(Long id);
+    void bloquearConta(Long id);
 }

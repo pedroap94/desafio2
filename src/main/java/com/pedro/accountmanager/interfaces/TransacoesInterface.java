@@ -7,7 +7,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface TransacoesInterface {
-    public void realizarDeposito(Contas conta, BigDecimal valorDeposito);
+    void realizarDeposito(Contas conta, BigDecimal valorDeposito);
 
-    public List<TransacoesDTO> recuperarExtrato(Contas conta);
+    List<TransacoesDTO> recuperarExtrato(Contas conta);
+
+    BigDecimal limiteDiarioUtilizado(Long idConta);
+
+    void realizarSaque(Contas conta, BigDecimal valorRetirado);
 }

@@ -9,19 +9,35 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class TransacoesService implements TransacoesInterface {
     private TransacoesRepository transacoesRepository;
+
     @Override
     public void realizarDeposito(Contas conta, BigDecimal valorDeposito) {
-        transacoesRepository.save(new Transacoes(conta, valorDeposito));
+        gerarTransacao(conta, valorDeposito);
     }
 
     @Override
     public List<TransacoesDTO> recuperarExtrato(Contas conta) {
         return null;
+    }
+
+    public BigDecimal limiteDiarioUtilizado(Long idConta) {
+        List<Transacoes> transacoes = transacoesRepository.findLimiteDiarioUtilizado(idConta, LocalDate.now());
+        return transacoes.stream().map(Transacoes::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public void realizarSaque(Contas conta, BigDecimal valorRetirado) {
+        gerarTransacao(conta, valorRetirado.negate());
+    }
+
+    private void gerarTransacao(Contas conta, BigDecimal valor) {
+        transacoesRepository.save(new Transacoes(conta, valor));
     }
 }

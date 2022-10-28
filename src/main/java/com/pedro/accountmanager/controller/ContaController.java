@@ -1,21 +1,22 @@
 package com.pedro.accountmanager.controller;
 
 import com.pedro.accountmanager.dto.ContaDTO;
-import com.pedro.accountmanager.dto.DepositoDTO;
+import com.pedro.accountmanager.dto.SaqueOuDepositoDTO;
 import com.pedro.accountmanager.facade.ContasFacade;
+import com.pedro.accountmanager.interfaces.ContaInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("conta")
 @AllArgsConstructor
 public class ContaController {
     private ContasFacade contasFacade;
+    private ContaInterface contaService;
 
     @PostMapping("criar-conta")
     public ResponseEntity<Void> criarConta(@RequestBody ContaDTO contaDTO) {
@@ -24,12 +25,19 @@ public class ContaController {
     }
 
     @PostMapping("depositar")
-    public ResponseEntity<Void> depositar(@RequestBody DepositoDTO depositoDTO) {
-        try {
-            contasFacade.depositar(depositoDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Void> depositar(@RequestBody SaqueOuDepositoDTO saqueOuDepositoDTO) {
+        contasFacade.depositar(saqueOuDepositoDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("saldo/{id}")
+    public ResponseEntity<BigDecimal> saldo(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(contaService.saldoConta(id), HttpStatus.OK);
+    }
+
+    @PostMapping("sacar")
+    public ResponseEntity<Void> realizarSaque(@RequestBody SaqueOuDepositoDTO saqueOuDepositoDTO) {
+        contasFacade.sacar(saqueOuDepositoDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

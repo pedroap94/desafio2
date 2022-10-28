@@ -26,8 +26,8 @@ public class ContaService implements ContaInterface {
 
     @Override
     public Contas depositoConta(Long id, BigDecimal valorDeposito) {
-        Contas contas = findContas(id);
-        if (contas != null && contas.isFlagAtivo()) {
+        Contas contas = findContasAtivas(id);
+        if (contas != null) {
             contas.setSaldo(contas.getSaldo().add(valorDeposito));
             return atualizarContas(contas);
         }
@@ -37,12 +37,23 @@ public class ContaService implements ContaInterface {
 
     @Override
     public BigDecimal saldoConta(Long id) {
-        return null;
+        Contas conta = findContasAtivas(id);
+        if (conta != null) {
+            return conta.getSaldo();
+        }
+        log.error("Conta id {} não encontrada ou inativa", id);
+        throw new ContaException("Conta não encontrada");
     }
 
     @Override
-    public void saqueConta(Long id, BigDecimal valorSaque) {
-
+    public Contas saqueConta(Long id, BigDecimal valorSaque, BigDecimal valorDiarioUtilizado) {
+        Contas conta = findContasAtivas(id);
+        if (conta != null && conta.getSaldo().compareTo(valorSaque) >= 0
+                && (conta.getLimiteSaqueDiario().subtract(valorDiarioUtilizado.abs()).subtract(valorSaque)).compareTo(BigDecimal.ZERO) >= 0) {
+            conta.setSaldo(conta.getSaldo().subtract(valorSaque));
+            return atualizarContas(conta);
+        }
+        throw new ContaException("Conta não encontrada, inativa ou com saldo insuficiente");
     }
 
     @Override
@@ -50,8 +61,8 @@ public class ContaService implements ContaInterface {
 
     }
 
-    private Contas findContas(Long id) {
-        return contaRepository.findById(id).orElse(null);
+    private Contas findContasAtivas(Long id) {
+        return contaRepository.findByIdContaAndFlagAtivoTrue(id).orElse(null);
     }
 
     private Contas atualizarContas(Contas contas) {
