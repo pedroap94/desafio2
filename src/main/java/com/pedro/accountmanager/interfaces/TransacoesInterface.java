@@ -9,7 +9,7 @@ import java.util.List;
 public interface TransacoesInterface {
     void realizarDeposito(Contas conta, BigDecimal valorDeposito);
 
-    List<TransacoesDTO> recuperarExtrato(Contas conta);
+    List<TransacoesDTO> recuperarExtrato(Long idConta);
 
     BigDecimal limiteDiarioUtilizado(Long idConta);
 

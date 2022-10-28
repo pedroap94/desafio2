@@ -11,4 +11,7 @@ public interface TransacoesRepository extends JpaRepository<Transacoes, Long> {
 
     @Query(value = "SELECT * FROM transacoes WHERE id_conta = :id AND DATE(data_transacao) = :localDate AND VALOR < 0", nativeQuery = true)
     List<Transacoes> findLimiteDiarioUtilizado(Long id, LocalDate localDate);
+
+    @Query(value = "SELECT * FROM transacoes WHERE id_conta = :idConta", nativeQuery = true)
+    List<Transacoes> findAllByIdConta(Long idConta);
 }
