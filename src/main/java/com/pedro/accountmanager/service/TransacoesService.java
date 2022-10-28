@@ -1,5 +1,6 @@
 package com.pedro.accountmanager.service;
 
+import com.pedro.accountmanager.dto.ExtratoPeriodoDTO;
 import com.pedro.accountmanager.dto.TransacoesDTO;
 import com.pedro.accountmanager.interfaces.TransacoesInterface;
 import com.pedro.accountmanager.model.Contas;
@@ -39,6 +40,15 @@ public class TransacoesService implements TransacoesInterface {
     @Override
     public void realizarSaque(Contas conta, BigDecimal valorRetirado) {
         gerarTransacao(conta, valorRetirado.negate());
+    }
+
+    @Override
+    public List<TransacoesDTO> recuperarExtratoPeriodo(ExtratoPeriodoDTO extratoPeriodoDTO) {
+        return transacoesRepository.findTransacoesPeriodo(
+                extratoPeriodoDTO.getIdConta(),
+                extratoPeriodoDTO.getDataInicial(),
+                extratoPeriodoDTO.getDataFinal()
+        ).stream().map(transacao -> modelMapper.map(transacao, TransacoesDTO.class)).toList();
     }
 
     private void gerarTransacao(Contas conta, BigDecimal valor) {

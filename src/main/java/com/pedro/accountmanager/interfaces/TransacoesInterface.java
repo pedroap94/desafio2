@@ -1,5 +1,6 @@
 package com.pedro.accountmanager.interfaces;
 
+import com.pedro.accountmanager.dto.ExtratoPeriodoDTO;
 import com.pedro.accountmanager.dto.TransacoesDTO;
 import com.pedro.accountmanager.model.Contas;
 
@@ -14,4 +15,6 @@ public interface TransacoesInterface {
     BigDecimal limiteDiarioUtilizado(Long idConta);
 
     void realizarSaque(Contas conta, BigDecimal valorRetirado);
+
+    List<TransacoesDTO> recuperarExtratoPeriodo(ExtratoPeriodoDTO extratoPeriodoDTO);
 }

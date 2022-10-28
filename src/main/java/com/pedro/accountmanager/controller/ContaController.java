@@ -1,7 +1,7 @@
 package com.pedro.accountmanager.controller;
 
 import com.pedro.accountmanager.dto.ContaDTO;
-import com.pedro.accountmanager.dto.SaqueOuDepositoDTO;
+import com.pedro.accountmanager.dto.OperacaoDTO;
 import com.pedro.accountmanager.facade.ContasFacade;
 import com.pedro.accountmanager.interfaces.ContaInterface;
 import lombok.AllArgsConstructor;
@@ -25,8 +25,8 @@ public class ContaController {
     }
 
     @PostMapping("depositar")
-    public ResponseEntity<Void> depositar(@RequestBody SaqueOuDepositoDTO saqueOuDepositoDTO) {
-        contasFacade.depositar(saqueOuDepositoDTO);
+    public ResponseEntity<Void> depositar(@RequestBody OperacaoDTO operacaoDTO) {
+        contasFacade.depositar(operacaoDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -36,8 +36,8 @@ public class ContaController {
     }
 
     @PostMapping("sacar")
-    public ResponseEntity<Void> realizarSaque(@RequestBody SaqueOuDepositoDTO saqueOuDepositoDTO) {
-        contasFacade.sacar(saqueOuDepositoDTO);
+    public ResponseEntity<Void> realizarSaque(@RequestBody OperacaoDTO operacaoDTO) {
+        contasFacade.sacar(operacaoDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

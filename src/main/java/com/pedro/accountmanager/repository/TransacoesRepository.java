@@ -9,9 +9,12 @@ import java.util.List;
 
 public interface TransacoesRepository extends JpaRepository<Transacoes, Long> {
 
-    @Query(value = "SELECT * FROM transacoes WHERE id_conta = :id AND DATE(data_transacao) = :localDate AND VALOR < 0", nativeQuery = true)
-    List<Transacoes> findLimiteDiarioUtilizado(Long id, LocalDate localDate);
+    @Query(value = "SELECT * FROM transacoes WHERE id_conta = :idConta AND DATE(data_transacao) = :localDate AND VALOR < 0", nativeQuery = true)
+    List<Transacoes> findLimiteDiarioUtilizado(Long idConta, LocalDate localDate);
 
     @Query(value = "SELECT * FROM transacoes WHERE id_conta = :idConta", nativeQuery = true)
     List<Transacoes> findAllByIdConta(Long idConta);
+
+    @Query(value = "SELECT * FROM transacoes WHERE id_conta = :idConta AND DATE(data_transacao) >= :dataInicial AND DATE(data_transacao) <= :dataFinal", nativeQuery = true)
+    List<Transacoes> findTransacoesPeriodo(Long idConta, LocalDate dataInicial, LocalDate dataFinal);
 }

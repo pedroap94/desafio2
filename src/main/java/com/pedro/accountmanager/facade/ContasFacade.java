@@ -1,7 +1,7 @@
 package com.pedro.accountmanager.facade;
 
 import com.pedro.accountmanager.dto.ContaDTO;
-import com.pedro.accountmanager.dto.SaqueOuDepositoDTO;
+import com.pedro.accountmanager.dto.OperacaoDTO;
 import com.pedro.accountmanager.exception.ContaException;
 import com.pedro.accountmanager.interfaces.ContaInterface;
 import com.pedro.accountmanager.interfaces.TransacoesInterface;
@@ -24,23 +24,23 @@ public class ContasFacade {
         transacoesService.realizarDeposito(novaConta, novaConta.getSaldo());
     }
 
-    public void depositar(SaqueOuDepositoDTO saqueOuDepositoDTO) {
+    public void depositar(OperacaoDTO operacaoDTO) {
         try {
-            Contas contas = contaService.depositoConta(saqueOuDepositoDTO.getIdConta(), saqueOuDepositoDTO.getValor());
-            transacoesService.realizarDeposito(contas, saqueOuDepositoDTO.getValor());
+            Contas contas = contaService.depositoConta(operacaoDTO.getIdConta(), operacaoDTO.getValor());
+            transacoesService.realizarDeposito(contas, operacaoDTO.getValor());
         } catch (Exception e) {
-            log.error("Falha ao depositar. Id conta: {}", saqueOuDepositoDTO.getIdConta());
+            log.error("Falha ao depositar. Id conta: {}", operacaoDTO.getIdConta());
             throw e;
         }
     }
 
-    public void sacar(SaqueOuDepositoDTO saqueOuDepositoDTO) {
-        BigDecimal valorDiarioUtilizado = transacoesService.limiteDiarioUtilizado(saqueOuDepositoDTO.getIdConta());
+    public void sacar(OperacaoDTO operacaoDTO) {
+        BigDecimal valorDiarioUtilizado = transacoesService.limiteDiarioUtilizado(operacaoDTO.getIdConta());
         try {
-            Contas conta = contaService.saqueConta(saqueOuDepositoDTO.getIdConta(), saqueOuDepositoDTO.getValor(), valorDiarioUtilizado);
-            transacoesService.realizarSaque(conta, saqueOuDepositoDTO.getValor());
+            Contas conta = contaService.saqueConta(operacaoDTO.getIdConta(), operacaoDTO.getValor(), valorDiarioUtilizado);
+            transacoesService.realizarSaque(conta, operacaoDTO.getValor());
         } catch (ContaException e) {
-            log.error("Falha ao realizar saque. Id conta: {}", saqueOuDepositoDTO.getIdConta());
+            log.error("Falha ao realizar saque. Id conta: {}", operacaoDTO.getIdConta());
             throw e;
         }
 
