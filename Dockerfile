@@ -1,9 +1,11 @@
-FROM openjdk:17-jdk-slim
+# Build stage
+FROM maven:3.8.6-openjdk-18-slim AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
 
-ADD target/*.jar app.jar
-
-VOLUME /tmp
-
-ENV TZ America/Sao_Paulo
-
-CMD exec java -jar app.jar
+# Package stage
+FROM openjdk:18-ea-20-jdk-slim
+COPY --from=build /home/app/target/account-manager-0.0.1-SNAPSHOT.jar /usr/local/lib/account-manager.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/usr/local/lib/account-manager.jar"]
