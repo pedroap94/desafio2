@@ -1,6 +1,7 @@
 package com.pedro.accountmanager.service;
 
 import com.pedro.accountmanager.dto.ContaDTO;
+import com.pedro.accountmanager.enums.TipoContaEnum;
 import com.pedro.accountmanager.exception.ContaException;
 import com.pedro.accountmanager.model.Contas;
 import com.pedro.accountmanager.repository.ContaRepository;
@@ -35,7 +36,9 @@ class ContaServiceTest {
 
     @Test
     void quandoEnviarContaDTO_deveCriarConta() {
-        contaService.criarConta(new ContaDTO());
+        ContaDTO contaDTO = new ContaDTO();
+        contaDTO.setTipoConta(TipoContaEnum.CORRENTE);
+        contaService.criarConta(contaDTO);
         verify(contaRepository, times(1)).save(any());
     }
 

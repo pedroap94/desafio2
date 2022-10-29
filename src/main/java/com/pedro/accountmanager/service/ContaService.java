@@ -7,7 +7,6 @@ import com.pedro.accountmanager.model.Contas;
 import com.pedro.accountmanager.repository.ContaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,7 +17,6 @@ import java.math.BigDecimal;
 @Slf4j
 public class ContaService implements ContaInterface {
     private ContaRepository contaRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
 
     /**
      * Criar nova conta bancária
@@ -27,7 +25,7 @@ public class ContaService implements ContaInterface {
      */
     @Override
     public Contas criarConta(ContaDTO contaDTO) {
-        return contaRepository.save(modelMapper.map(contaDTO, Contas.class));
+        return contaRepository.save(contaDTOToConta(contaDTO));
     }
 
     /**
@@ -102,5 +100,14 @@ public class ContaService implements ContaInterface {
 
     private Contas atualizarContas(Contas contas) {
         return contaRepository.save(contas);
+    }
+
+    private Contas contaDTOToConta(ContaDTO contaDTO){
+        Contas contas = new Contas();
+        contas.setIdPessoa(contaDTO.getIdPessoa());
+        contas.setLimiteSaqueDiario(contaDTO.getLimiteSaqueDiario());
+        contas.setSaldo(contaDTO.getSaldo());
+        contas.setTipoConta(contaDTO.getTipoConta().getTipoConta());
+        return contas;
     }
 }
