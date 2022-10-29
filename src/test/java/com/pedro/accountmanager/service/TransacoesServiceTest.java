@@ -76,7 +76,7 @@ class TransacoesServiceTest {
     @Test
     void quandoSolicitadoLimiteDiario_DeveRetornarValor() {
         List<Transacoes> transacoes = criarListaTransacoes();
-        when(transacoesRepository.findLimiteDiarioUtilizado(any(), any())).thenReturn(transacoes);
+        when(transacoesRepository.findTransacoesByData(any(), any())).thenReturn(transacoes);
         BigDecimal limiteDiarioUtilizado = transacoesService.limiteDiarioUtilizado(1L);
         assertEquals(transacoes.stream()
                         .map(Transacoes::getValor)

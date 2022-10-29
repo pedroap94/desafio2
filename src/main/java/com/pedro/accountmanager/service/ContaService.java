@@ -20,11 +20,22 @@ public class ContaService implements ContaInterface {
     private ContaRepository contaRepository;
     private final ModelMapper modelMapper = new ModelMapper();
 
+    /**
+     * Criar nova conta bancária
+     * @param contaDTO — objeto com dados para criação de uma nova conta bancária
+     * @return void
+     */
     @Override
     public Contas criarConta(ContaDTO contaDTO) {
         return contaRepository.save(modelMapper.map(contaDTO, Contas.class));
     }
 
+    /**
+     * Depositar em conta bancária existente
+     * @param id - id da conta bancária
+     * @param valorDeposito — valor a ser depositado em conta bancária
+     * @return void
+     */
     @Override
     public Contas depositoConta(Long id, BigDecimal valorDeposito) {
         Contas contas = findContasAtivas(id);
@@ -36,6 +47,11 @@ public class ContaService implements ContaInterface {
         throw new ContaException("Conta não encontrada");
     }
 
+    /**
+     * Resgatar saldo em conta bancária existente
+     * @param id - id da conta bancária
+     * @return BigDecimal — valor da conta bancária
+     */
     @Override
     public BigDecimal saldoConta(Long id) {
         Contas conta = findContasAtivas(id);
@@ -46,6 +62,15 @@ public class ContaService implements ContaInterface {
         throw new ContaException("Conta não encontrada");
     }
 
+    /**
+     * Realizar saque em conta bancária existente.
+     * Essa operação só irá ocorrer caso o valor do saque não ultrapasse o valor limite diário
+     * @param id - id da conta bancária
+     * @param valorSaque - valor a ser sacado da conta bancária
+     * @param valorDiarioUtilizado — valor diário utilizado da conta bancária
+     * @return Contas - objeto contendo todos os dados da conta bancária
+     * @exception ContaException — lançado em caso de conta nula, com valor de saque superior ao saldo da conta bancária ou saque que excede limite diário de saques.
+     */
     @Override
     public Contas saqueConta(Long id, BigDecimal valorSaque, BigDecimal valorDiarioUtilizado) {
         Contas conta = findContasAtivas(id);
@@ -57,6 +82,11 @@ public class ContaService implements ContaInterface {
         throw new ContaException("Conta não encontrada, inativa ou com saldo insuficiente");
     }
 
+    /**
+     * Realizar bloqueio de conta bancária existente
+     * @param id - id da conta bancária
+     * @exception ContaException — exceção lançada em caso de nenhuma conta bancária ser encontrada
+     */
     @Transactional
     @Override
     public void bloquearConta(Long id) {

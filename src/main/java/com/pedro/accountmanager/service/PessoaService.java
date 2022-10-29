@@ -16,6 +16,11 @@ public class PessoaService {
     private PessoaRepository pessoaRepository;
     private final ModelMapper modelMapper = new ModelMapper();
 
+    /**
+     * Cadastrar nova Pessoa no sistema
+     * @param pessoaDTO — Objeto contendo dados de cadastro de nova pessoa
+     * @exception PessoaException — exceção propagada em caso de a pessoa a ser cadastrada já existir no sistema
+     */
     public void cadastrarPessoa(PessoaDTO pessoaDTO) {
         if (verificarExistenciaCadastro(pessoaDTO)) {
             pessoaRepository.save(modelMapper.map(pessoaDTO, Pessoas.class));

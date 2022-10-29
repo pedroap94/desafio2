@@ -1,0 +1,10 @@
+com.pedro.accountmanager
+com.pedro.accountmanager.controller
+com.pedro.accountmanager.dto
+com.pedro.accountmanager.exception
+com.pedro.accountmanager.facade
+com.pedro.accountmanager.interfaces
+com.pedro.accountmanager.model
+com.pedro.accountmanager.repository
+com.pedro.accountmanager.service
+com.pedro.accountmanager.utils

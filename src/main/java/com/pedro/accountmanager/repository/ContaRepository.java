@@ -12,6 +12,11 @@ import java.util.Optional;
 public interface ContaRepository extends JpaRepository<Contas, Long> {
     Optional<Contas> findByIdContaAndFlagAtivoTrue(Long id);
 
+    /**
+     * Realizar bloqueio de conta bancária em banco de dados
+     * @param id - id da conta bancária a ser bloqueada
+     * @return Integer — quantidade de contas atualizadas
+     */
     @Modifying
     @Query(value = "UPDATE contas SET flag_ativo = false where id_conta = :id", nativeQuery = true)
     int updateFlagAtivoFalse(Long id);

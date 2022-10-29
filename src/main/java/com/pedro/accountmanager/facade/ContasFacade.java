@@ -19,11 +19,20 @@ public class ContasFacade {
     private ContaInterface contaService;
     private TransacoesInterface transacoesService;
 
+    /**
+     * Criar conta bancária
+     * @param contaDTO — objeto de dados da conta bancária a ser criada
+     */
+
     public void criarConta(ContaDTO contaDTO) {
         Contas novaConta = contaService.criarConta(contaDTO);
         transacoesService.realizarDeposito(novaConta, novaConta.getSaldo());
     }
 
+    /**
+     * Depositar valor em conta bancária existente
+     * @param operacaoDTO — objeto contendo dados de conta bancária para realizar depósito e valor do depósito.
+     */
     public void depositar(OperacaoDTO operacaoDTO) {
         try {
             Contas contas = contaService.depositoConta(operacaoDTO.getIdConta(), operacaoDTO.getValor());
@@ -34,6 +43,10 @@ public class ContasFacade {
         }
     }
 
+    /**
+     * Realizar operação de saque em conta bancária existente
+     * @param operacaoDTO - objeto contendo dados de conta bancária para realizar saque e valor do saque.
+     */
     public void sacar(OperacaoDTO operacaoDTO) {
         BigDecimal valorDiarioUtilizado = transacoesService.limiteDiarioUtilizado(operacaoDTO.getIdConta());
         try {
