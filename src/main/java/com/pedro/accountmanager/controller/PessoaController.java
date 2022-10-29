@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("pessoa")
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class PessoaController {
     private PessoaService pessoaService;
 
     @PostMapping("cadastrar")
-    public ResponseEntity<Void> cadastrarPessoa(@RequestBody PessoaDTO pessoaDTO) {
+    public ResponseEntity<Void> cadastrarPessoa(@Valid @RequestBody PessoaDTO pessoaDTO) {
         try {
             pessoaService.cadastrarPessoa(pessoaDTO);
             return new ResponseEntity<>(HttpStatus.OK);

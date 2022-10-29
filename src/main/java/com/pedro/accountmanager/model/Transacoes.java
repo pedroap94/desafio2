@@ -2,10 +2,8 @@ package com.pedro.accountmanager.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -20,8 +18,7 @@ public class Transacoes {
     @JoinColumn(name = "id_conta")
     private Contas idConta;
     private BigDecimal valor;
-    @NotNull(message = "Data da transação não pode ser nula")
-    private LocalDateTime dataTransacao = LocalDateTime.now();
+    private final LocalDateTime dataTransacao = LocalDateTime.now();
 
     public Transacoes(Contas idConta, BigDecimal valor) {
         this.idConta = idConta;

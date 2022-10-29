@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class TransacoesController {
     }
 
     @PostMapping("extrato-periodo")
-    public ResponseEntity<List<TransacoesDTO>> extratoPeriodo(@RequestBody ExtratoPeriodoDTO extratoPeriodoDTO) {
+    public ResponseEntity<List<TransacoesDTO>> extratoPeriodo(@Valid @RequestBody ExtratoPeriodoDTO extratoPeriodoDTO) {
         return new ResponseEntity<>(transacoesService.recuperarExtratoPeriodo(extratoPeriodoDTO), HttpStatus.OK);
     }
 }

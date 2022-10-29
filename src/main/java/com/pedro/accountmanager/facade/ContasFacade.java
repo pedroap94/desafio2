@@ -36,6 +36,7 @@ public class ContasFacade {
 
     public void sacar(OperacaoDTO operacaoDTO) {
         BigDecimal valorDiarioUtilizado = transacoesService.limiteDiarioUtilizado(operacaoDTO.getIdConta());
+        System.out.println("ValorDiarioUtilizado: " + valorDiarioUtilizado.toString());
         try {
             Contas conta = contaService.saqueConta(operacaoDTO.getIdConta(), operacaoDTO.getValor(), valorDiarioUtilizado);
             transacoesService.realizarSaque(conta, operacaoDTO.getValor());

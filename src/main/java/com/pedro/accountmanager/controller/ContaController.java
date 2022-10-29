@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @RestController
@@ -19,13 +20,13 @@ public class ContaController {
     private ContaInterface contaService;
 
     @PostMapping("criar-conta")
-    public ResponseEntity<Void> criarConta(@RequestBody ContaDTO contaDTO) {
+    public ResponseEntity<Void> criarConta(@Valid @RequestBody ContaDTO contaDTO) {
         contasFacade.criarConta(contaDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("depositar")
-    public ResponseEntity<Void> depositar(@RequestBody OperacaoDTO operacaoDTO) {
+    public ResponseEntity<Void> depositar(@Valid @RequestBody OperacaoDTO operacaoDTO) {
         contasFacade.depositar(operacaoDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -36,7 +37,7 @@ public class ContaController {
     }
 
     @PostMapping("sacar")
-    public ResponseEntity<Void> realizarSaque(@RequestBody OperacaoDTO operacaoDTO) {
+    public ResponseEntity<Void> realizarSaque(@Valid @RequestBody OperacaoDTO operacaoDTO) {
         contasFacade.sacar(operacaoDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
