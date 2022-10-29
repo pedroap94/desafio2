@@ -24,7 +24,7 @@ Acesso localmente o diretório raiz da aplicação através do terminal
 Passo 3:
 ```
 rode o comando:
-docker-compose up -d
+docker-compose up -d --build
 ```
 ---
 Após as mensagens de "done" do docker-compose indicando que os containers
