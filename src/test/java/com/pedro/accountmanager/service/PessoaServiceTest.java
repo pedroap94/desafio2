@@ -14,8 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
@@ -45,11 +44,8 @@ class PessoaServiceTest {
     void quandoPessoaExistir_deveRetornarException() {
         when(pessoaRepository.findByNome((any()))).thenReturn(new Pessoas("Teste", "1234", LocalDate.now()));
 
-        Throwable throwable = assertThrows(Throwable.class, () -> {
-            pessoaService.cadastrarPessoa(new PessoaDTO());
-        });
+        Throwable throwable = assertThrows(Throwable.class, () -> pessoaService.cadastrarPessoa(new PessoaDTO()));
 
         assertEquals(PessoaException.class, throwable.getClass());
     }
-
 }

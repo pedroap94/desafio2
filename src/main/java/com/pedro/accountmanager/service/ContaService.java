@@ -61,7 +61,7 @@ public class ContaService implements ContaInterface {
     @Override
     public void bloquearConta(Long id) {
         int contasModificadas = contaRepository.updateFlagAtivoFalse(id);
-        if(contasModificadas == 0) {
+        if (contasModificadas == 0) {
             throw new ContaException("Nenhuma conta encontrada");
         }
     }
