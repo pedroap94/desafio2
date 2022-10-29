@@ -93,6 +93,24 @@ class ContaServiceTest {
     }
 
     @Test
+    void quandoValorSaqueMaiorQueSaldo_deveRetornarExceptionAoTentarSacar() {
+        var contas = criarContas();
+        BigDecimal valorSaque = new BigDecimal(100);
+        contas.setLimiteSaqueDiario(new BigDecimal(1000));
+        when(contaRepository.findByIdContaAndFlagAtivoTrue(anyLong())).thenReturn(Optional.of(contas));
+        assertThrows(ContaException.class, () -> contaService.saqueConta(1L, valorSaque , BigDecimal.ZERO));
+    }
+
+    @Test
+    void quandoLimiteSaqueDiarioMenorQueValorSaque_deveRetornarExceptionAoTentarSacar() {
+        var contas = criarContas();
+        BigDecimal valorSaqueUtilizado = new BigDecimal(999);
+        contas.setLimiteSaqueDiario(new BigDecimal(1000));
+        when(contaRepository.findByIdContaAndFlagAtivoTrue(anyLong())).thenReturn(Optional.of(contas));
+        assertThrows(ContaException.class, () -> contaService.saqueConta(1L, BigDecimal.TEN , valorSaqueUtilizado));
+    }
+
+    @Test
     void quandoContaExistir_deveBloquear() {
         when(contaRepository.updateFlagAtivoFalse(anyLong())).thenReturn(1);
         contaService.bloquearConta(1L);
@@ -101,7 +119,7 @@ class ContaServiceTest {
     }
 
     @Test
-    void quandoContaNaoExistir_deveRetornarExceptionAoTentarBloquear(){
+    void quandoContaNaoExistir_deveRetornarExceptionAoTentarBloquear() {
         when(contaRepository.updateFlagAtivoFalse(anyLong())).thenReturn(0);
         assertThrows(ContaException.class, () -> contaService.bloquearConta(1L));
     }
