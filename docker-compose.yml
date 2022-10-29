@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  postgres-compose:
+    image: postgres:14.5
+    environment:
+      POSTGRES_PASSWORD: "Postgres2019!"
+      POSTGRES_DB: "account-manager"
+    ports:
+      - "15432:5432"
+    volumes:
+      - /home/user/Documentos/docker/postgres/database:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+
+  desafio2-compose:
+    build: .
+    container_name: desafio2
+    ports:
+      - "9000:8080"
+    depends_on:
+      - postgres-compose
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
