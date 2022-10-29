@@ -1,78 +1,63 @@
+# Manual de Execução
 
-### Desafio Dock Tech de Seleção 
-Olá, queremos convidá-lo a participar de nosso desafio de seleção.  Pronto para participar? Seu trabalho será visto por nosso time e você receberá ao final um feedback sobre o que achamos do seu trabalho. Não é legal?
+---
+### 1. Requisitos
+Conter git instalando na máquina;
 
-### Sobre a oportunidade 
-A vaga é para software engineer, temos vagas com diversos níveis de senioridade e para cada um deles utilizaremos critérios específicos considerando esse aspecto, combinado? 
-Se você for aprovado nesta etapa, será convidado para uma entrevista final com nosso time de especialistas.
+Conter docker-compose instalado na máquina.
 
-### Desafio Técnico
-  Nós trabalhamos com meios de pagamento e nada melhor que um bom sistema para gestão de contas:
-  
-  - Pré-requisitos:
-    ```
-    * Desenvolver os recursos em API Rest que realizam operações bancárias com a entidade conta a seguir:
-    ```
-    | Contas | Tipo |
-    |-|-|
-    | idConta | Numérico |
-    | idPessoa | Numérico |
-    | saldo | Monetário |
-    | limiteSaqueDiario | Monetário |
-    | flagAtivo | Condicional |
-    | tipoConta | Numérido |
-    | dataCriacao | Data |
+---
+<br/>
 
-    ```
-    * Tabela de transações realizadas na conta
-    ```
-    | Transacoes | Tipo |
-    |-|-|
-    | idTransacao | Numérico |
-    | idConta | Numérico |
-    | valor | Monetário |
-    | dataTransacao | Data |
+### 2. Realizando deploy local da aplicação
+Passo 1:
+```
+Clone o repositório utilizando o comando:
+git clone https://github.com/pedroap94/desafio2.git
+```
 
-    ```
-    * P.S.: Não é necessário realizar operações com a tabela pessoa, mas é necessária a criação da tabela para mapeamento da relação com a conta e enviar script de criação de pelo menos uma pessoa.
-    ```
+Passo 2:
+```
+Acesso localmente o diretório raiz da aplicação através do terminal
+```
 
-    | Pessoas | Tipo |
-    |-|-|
-    | idPessoa | Numérico |
-    | nome | Texto |
-    | cpf | Texto |
-    | dataNascimento | Data |    
+Passo 3:
+```
+rode o comando:
+docker-compose up -d
+```
+---
+Após as mensagens de "done" do docker-compose indicando que os containers
+estão ativos, a aplicação estará disponível em:
+```
+http://localhost:9000/
+```
 
-  - O que esperamos como escopo mínimo:
-    ```
-    * Implementar path que realiza a criação de uma conta;
-    * Implementar path que realiza operação de depósito em uma conta;
-    * Implementar path que realiza operação de consulta de saldo em determinada conta;
-    * Implementar path que realiza operação de saque em uma conta;
-    * Implementar path que realiza o bloqueio de uma conta;
-    * Implementar path que recupera o extrato de transações de uma conta;
-    ```
-  - O que será diferencial:
-    ```
-    * Implementar extrato por período;
-    * Elaborar manual de execução;
-    * Elaborar documentação javadoc;
-    * Elaborar testes;
-    * Prazo de entrega;
-    ```
-    
-  - O que vamos avaliar:
-    ```
-    * Seu código; 
-    * Script de banco;
-    * Organização;
-    * Boas práticas;
-    * Diferenciais;    
-    ```
+Os logs podem ser lidos diretamente no terminal através do comando:
+```
+docker logs desafio2
+```
 
+---
+<br/>
 
-### Instruções
-      1. Faça o fork do desafio;
-      2. Desenvolva. Você terá até 3 (três) dias a partir da data do envio do desafio; 
-      3. Envie um e-mail para arthur.azevedo@dock.tech notificando a finalização do desafio e o link do repositório para validação.
+### 3. Endpoints
+Esta aplicação utiliza Swagger 2.0, portanto a documentação dos endpoints
+encontra-se em:
+```
+http://localhost:9000/swagger-ui/
+```
+
+Para facilitar os testes, abaixo está o link para download da coleção do Postman:
+```
+https://drive.google.com/file/d/1bjZrlRRLDAectVeFZZHHyQpOkyRwdUsy/view?usp=sharing
+```
+
+---
+<br/>
+
+### 4. Desligar a aplicação
+Para finalizar a aplicação use o comando:
+```
+docker-compose down
+```

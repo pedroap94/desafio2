@@ -7,7 +7,7 @@ spring:
       mode: always
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:15432/account-manager
+    url: jdbc:postgresql://postgres-compose:5432/account-manager
     username: postgres
     password: Postgres2019!
     initialization-mode: always
