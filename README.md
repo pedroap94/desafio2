@@ -60,7 +60,7 @@ https://drive.google.com/file/d/1bjZrlRRLDAectVeFZZHHyQpOkyRwdUsy/view?usp=shari
 O Acesso ao banco de dados pode ser feito através do dBeaver, pgAdmin, ou 
 outras ferramentas de acesso a banco de dados do mercado.
 
-Dados de acesso
+Dados de acesso:
 ```
 url: jdbc:postgresql://localhost:15432/account-manager
 Usuário: postgres
