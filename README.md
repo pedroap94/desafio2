@@ -56,7 +56,21 @@ https://drive.google.com/file/d/1bjZrlRRLDAectVeFZZHHyQpOkyRwdUsy/view?usp=shari
 ---
 <br/>
 
-### 4. Desligar a aplicação
+### 4. Acesso ao banco de dados
+O Acesso ao banco de dados pode ser feito através do dBeaver, pgAdmin, ou 
+outras ferramentas de acesso a banco de dados do mercado.
+
+Dados de acesso
+```
+url: jdbc:postgresql://localhost:15432/account-manager
+Usuário: postgres
+Senha: Postgres2019!
+```
+
+---
+<br/>
+
+### 5. Desligar a aplicação
 Para finalizar a aplicação use o comando:
 ```
 docker-compose down
