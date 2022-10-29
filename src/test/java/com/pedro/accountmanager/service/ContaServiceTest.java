@@ -3,8 +3,8 @@ package com.pedro.accountmanager.service;
 import com.pedro.accountmanager.dto.ContaDTO;
 import com.pedro.accountmanager.exception.ContaException;
 import com.pedro.accountmanager.model.Contas;
-import com.pedro.accountmanager.model.Pessoas;
 import com.pedro.accountmanager.repository.ContaRepository;
+import com.pedro.accountmanager.utils.ContasUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,14 +41,14 @@ class ContaServiceTest {
 
     @Test
     void quandoDadosDepositoCorretos_deveAtualizarContaAoDepositar() {
-        Contas conta = criarContas();
+        Contas conta = ContasUtils.criarContas();
         BigDecimal valorDeposito = BigDecimal.ONE;
 
         when(contaRepository.findByIdContaAndFlagAtivoTrue(anyLong())).thenReturn(Optional.of(conta));
         when(contaRepository.save(any())).thenReturn(conta);
         Contas retorno = contaService.depositoConta(1L, valorDeposito);
 
-        assertEquals(criarContas().getSaldo().add(valorDeposito), retorno.getSaldo());
+        assertEquals(ContasUtils.criarContas().getSaldo().add(valorDeposito), retorno.getSaldo());
     }
 
     @Test
@@ -60,7 +59,7 @@ class ContaServiceTest {
 
     @Test
     void quandoExistirConta_deveRetornarSaldo() {
-        Contas conta = criarContas();
+        Contas conta = ContasUtils.criarContas();
         when(contaRepository.findByIdContaAndFlagAtivoTrue(anyLong())).thenReturn(Optional.of(conta));
         BigDecimal retorno = contaService.saldoConta(1L);
         assertEquals(conta.getSaldo(), retorno);
@@ -74,8 +73,8 @@ class ContaServiceTest {
 
     @Test
     void quandoContaExistir_deveSacarValor() {
-        var conta = criarContas();
-        var contaRetorno = criarContas();
+        var conta = ContasUtils.criarContas();
+        var contaRetorno = ContasUtils.criarContas();
         var valorSaque = BigDecimal.ONE;
         contaRetorno.setSaldo(contaRetorno.getSaldo().subtract(valorSaque));
         when(contaRepository.findByIdContaAndFlagAtivoTrue(anyLong())).thenReturn(Optional.of(conta));
@@ -94,20 +93,20 @@ class ContaServiceTest {
 
     @Test
     void quandoValorSaqueMaiorQueSaldo_deveRetornarExceptionAoTentarSacar() {
-        var contas = criarContas();
+        var contas = ContasUtils.criarContas();
         BigDecimal valorSaque = new BigDecimal(100);
         contas.setLimiteSaqueDiario(new BigDecimal(1000));
         when(contaRepository.findByIdContaAndFlagAtivoTrue(anyLong())).thenReturn(Optional.of(contas));
-        assertThrows(ContaException.class, () -> contaService.saqueConta(1L, valorSaque , BigDecimal.ZERO));
+        assertThrows(ContaException.class, () -> contaService.saqueConta(1L, valorSaque, BigDecimal.ZERO));
     }
 
     @Test
     void quandoLimiteSaqueDiarioMenorQueValorSaque_deveRetornarExceptionAoTentarSacar() {
-        var contas = criarContas();
+        var contas = ContasUtils.criarContas();
         BigDecimal valorSaqueUtilizado = new BigDecimal(999);
         contas.setLimiteSaqueDiario(new BigDecimal(1000));
         when(contaRepository.findByIdContaAndFlagAtivoTrue(anyLong())).thenReturn(Optional.of(contas));
-        assertThrows(ContaException.class, () -> contaService.saqueConta(1L, BigDecimal.TEN , valorSaqueUtilizado));
+        assertThrows(ContaException.class, () -> contaService.saqueConta(1L, BigDecimal.TEN, valorSaqueUtilizado));
     }
 
     @Test
@@ -124,9 +123,5 @@ class ContaServiceTest {
         assertThrows(ContaException.class, () -> contaService.bloquearConta(1L));
     }
 
-    private Contas criarContas() {
-        return new Contas(new Pessoas("Teste", "1234",
-                LocalDate.now()), BigDecimal.TEN,
-                BigDecimal.TEN, 1);
-    }
+
 }

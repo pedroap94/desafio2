@@ -2,10 +2,9 @@ package com.pedro.accountmanager.service;
 
 import com.pedro.accountmanager.dto.ExtratoPeriodoDTO;
 import com.pedro.accountmanager.dto.TransacoesDTO;
-import com.pedro.accountmanager.model.Contas;
-import com.pedro.accountmanager.model.Pessoas;
 import com.pedro.accountmanager.model.Transacoes;
 import com.pedro.accountmanager.repository.TransacoesRepository;
+import com.pedro.accountmanager.utils.ContasUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,14 +41,14 @@ class TransacoesServiceTest {
 
     @Test
     void quandoEnviarUmaContaEValor_DeveRealizarDeposito() {
-        transacoesService.realizarDeposito(criarContas(), BigDecimal.ONE);
+        transacoesService.realizarDeposito(ContasUtils.criarContas(), BigDecimal.ONE);
 
         verify(transacoesRepository, times(1)).save(any());
     }
 
     @Test
     void quandoEnviadoContaEValor_DeveRealizarSaque() {
-        transacoesService.realizarSaque(criarContas(), BigDecimal.ONE);
+        transacoesService.realizarSaque(ContasUtils.criarContas(), BigDecimal.ONE);
 
         verify(transacoesRepository, times(1)).save(any());
         verify(transacoesRepository, times(1)).save(argThat(x ->
@@ -59,7 +58,7 @@ class TransacoesServiceTest {
     @Test
     void quandoEnviarIdContaParaRecuperarExtrato_DeveRetornarListaDeTransacoesDTO() {
         Map<List<Transacoes>, List<TransacoesDTO>> condicoes = new HashMap<>();
-        List<Transacoes> listaTransacoes = List.of(new Transacoes(criarContas(), BigDecimal.ONE));
+        List<Transacoes> listaTransacoes = List.of(new Transacoes(ContasUtils.criarContas(), BigDecimal.ONE));
         TransacoesDTO transacoesDTO = new TransacoesDTO();
         transacoesDTO.setValor(listaTransacoes.get(0).getValor());
         transacoesDTO.setDataTransacao(listaTransacoes.get(0).getDataTransacao());
@@ -93,15 +92,9 @@ class TransacoesServiceTest {
         assertEquals(toDTO(transacoes), resultado);
     }
 
-    private Contas criarContas() {
-        return new Contas(new Pessoas("Teste", "1234",
-                LocalDate.now()), BigDecimal.ONE,
-                BigDecimal.TEN, 1);
-    }
-
     private List<Transacoes> criarListaTransacoes() {
-        Transacoes transacoes1 = new Transacoes(criarContas(), BigDecimal.ONE);
-        Transacoes transacoes2 = new Transacoes(criarContas(), BigDecimal.ONE);
+        Transacoes transacoes1 = new Transacoes(ContasUtils.criarContas(), BigDecimal.ONE);
+        Transacoes transacoes2 = new Transacoes(ContasUtils.criarContas(), BigDecimal.ONE);
         return List.of(transacoes1, transacoes2);
     }
 

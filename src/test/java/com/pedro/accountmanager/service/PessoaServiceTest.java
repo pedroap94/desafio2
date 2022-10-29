@@ -41,7 +41,7 @@ class PessoaServiceTest {
     }
 
     @Test
-    void quandoPessoaExistir_deveRetornarException() {
+    void quandoPessoaExistir_deveRetornarExceptionAoTentarCadastrarPessoa() {
         when(pessoaRepository.findByNome((any()))).thenReturn(new Pessoas("Teste", "1234", LocalDate.now()));
 
         Throwable throwable = assertThrows(Throwable.class, () -> pessoaService.cadastrarPessoa(new PessoaDTO()));
